@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Directory Listing</title>
+	
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 50%;
+		}
+		th, td {
+			text-align: left;
+			padding: 5px;
+		}
+		tr:nth-child(even) {
+			background-color: #f2f2f2;
+		}
+		th {
+			background-color: #4CAF50;
+			color: white;
+		}
+		.search-form input[type="submit"] {
+			background-color: rgb(99, 99, 239);
+			color: white;
+			padding: 10px;
+			border-radius: 5px;
+			border: none;
+			font-size: 16px;
+			cursor: pointer;
+			margin-left: 567px;
+
+		}
+
+		.search-form input[type="submit"]:hover {
+			background-color: gold;
+		}
+
+		
+		a[href="{{ url_for('download_home_directory') }}"] button {
+			background-color: #4CAF50;
+			border: none;
+			color: white;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			margin: 4px 2px;
+			cursor: pointer;
+			border-radius: 4px;
+			
+			
+		}
+
+		a[href="{{ url_for('download_home_directory') }}"] button:hover {
+			background-color: gold
+		}
+		.files-btn {
+ 			background-color: rgb(248, 33, 33); /* Green */
+  			border: none;
+			color: white;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			margin: 4px 2px;
+			cursor: pointer;
+			border-radius: 4px;
+			
+		}
+		.logout-btn {
+ 			background-color: magenta; /* Green */
+  			border: none;
+			color: white;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			margin: 4px 2px;
+			cursor: pointer;
+			border-radius: 4px;
+			margin-left: 150px;
+			
+		}
+		.dir-btn {
+ 			background-color: black; /* Green */
+  			border: none;
+			color: white;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			margin: 4px 2px;
+			cursor: pointer;
+			border-radius: 4px;
+		}
+		.space-btn {
+ 			background-color:rgb(14, 171, 228); /* Green */
+  			border: none;
+			color: white;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			margin: 4px 2px;
+			cursor: pointer;
+			border-radius: 4px;
+		}
+		.button-container {
+  			display: flex;
+  			justify-content: left;
+  			align-items: left;
+		}
+
+		.button-container form,
+		.button-container a {
+  		margin-right: 10px;
+		  margin-bottom: 20px;
+		}
+		.files-btn:hover,
+		.logout-btn:hover,
+		.dir-btn:hover,
+		.space-btn:hover {
+  			background-color: gold;
+		}
+
+
+		
+	
+
+	</style>
+</head>
+<body>
+	<div class="button-container">
+		<form action="{{ url_for('space') }}" method="get">
+		  <button type="submit" class="space-btn">Space</button>
+		</form>
+	  
+		<form action="{{ url_for('Dirs') }}" method="get">
+		  <button type="submit" class="dir-btn">Dirs</button>
+		</form>
+	  
+		<form action="{{ url_for('Files') }}" method="get">
+		  <button type="submit" class="files-btn">Files</button>
+		</form>
+	  
+		<a href="{{ url_for('download_home_directory') }}">
+		  <button>Download</button>
+		</a>
+	  
+		<form method="post" action="{{ url_for('logout') }}">
+		  <button type="submit" class="logout-btn">Logout</button>
+		</form>
+	  </div>
+	  
+	  
+	
+	
+	<form class="search-form" action="http://127.0.0.1:5001/indexe" method="get">
+		
+		<input type="submit" value="Search">
+	</form>
+	
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Type</th>
+				<th>Size</th>
+				<th>Path</th>
+				<th>Content</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for item in items %}
+				<tr>
+					<td><a href="{{ url_for('list_directory', path=item['path']) }}">{{ item['name'] }}</a></td>
+					<td>{{ 'File' if item['is_file'] else 'Directory' }}</td>
+					<td>{{ item['size'] }} bytes</td>
+					<td>{{ item['path'] }}</td>
+					{% if item['is_file'] %}
+                		<td>{{ item['content'] }}</td>
+            		{% else %}
+                		<td></td>
+            		{% endif %}
+					
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+</body>
+</html>
